@@ -1,18 +1,9 @@
 #include <iostream>
-#include <cstdlib>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
 using namespace std;
-
-int getPathValue(vector<int> path){
-    int result = 0;
-    for(int i: path){
-        result += i;
-    }    
-    return result;
-}
 
 vector<int> convert(string line){
     string buf;
@@ -28,7 +19,7 @@ vector<int> convert(string line){
 vector<vector<int> > loading(){
     vector<vector<int> > result;
     string line;
-    ifstream in ("small.txt");
+    ifstream in ("triangle.txt");
     
     while(getline(in,line)){
         result.push_back(convert(line));
@@ -36,17 +27,33 @@ vector<vector<int> > loading(){
     return result;
 }
 
+void generateMaxPath(vector<vector<int> > triangle){
+    for(int i = triangle.size()-1; i > 0; i--){
+        for(int j=0; j < triangle.at(i).size()-1; j++){
+            triangle.at(i-1).at(j) += max(triangle.at(i).at(j),triangle.at(i).at(j+1));
+        }
+    }
+    cout << triangle[0][0] << endl;
+}
+
 int main(){
     vector<vector<int> > triangle;
     triangle = loading();
+    generateMaxPath(triangle);
     
-    for(int i=0;i<triangle.size();i++){
+    return 0;
+}
+
+
+
+
+
+
+/*for(int i=0;i<triangle.size();i++){
         for(int j=0;j<triangle.at(i).size();j++){
             cout << triangle.at(i).at(j) << endl;
         }
-    }
-    return 0;
-}
+    }*/
 
 
 
